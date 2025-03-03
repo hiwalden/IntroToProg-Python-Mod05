@@ -3,6 +3,7 @@
 # Desc: This assignment demonstrates using dictionaries, files, and exception handling
 # Change Log: (Who, When, What)
 #   WMarcus, 2/23/25, Created Script
+#   WMarcus, 3/2/25, Modified Script in context of corrected assignment data
 # ------------------------------------------------------------------------------------------ #
 #Import packages
 import json
@@ -63,7 +64,7 @@ while True:
             if not student_last_name.isalpha():
                 raise ValueError("Please re-attempt entering student information.")
         except ValueError as e:
-            print("No part of any student name may contain numbers.")
+            print("Student names may only contain letters.")
             print("-- Technical Error Message -- ")
             print(e.__doc__)
             print(e.__str__())
@@ -88,12 +89,6 @@ while True:
                 print(f"Student {student["FirstName"]} {student["LastName"]} is enrolled in {student["CourseName"]}")
             print("-"*50)
             continue
-        except KeyError as e: #This is an expected exception, as Enrollments.json contains a key:value error.
-            print("Unexpected Key:Value Pair in JSON File")
-            print("-- Technical Error Message -- ")
-            print(e.__doc__)
-            print(e.__str__())
-            continue
         except Exception as e:
             print("There was a non-specific error!\n")
             print("-- Technical Error Message -- ")
@@ -106,6 +101,10 @@ while True:
             file = open(FILE_NAME, "w")
             json.dump(students, file)
             file.close()
+        except FileNotFoundError as e:
+            print("JSON file must exist before running this script!\n")
+            print("-- Technical Error Message -- ")
+            print(e, e.__doc__, type(e), sep='\n')
         except Exception as e:
             print("There was a non-specific error!\n")
             print("-- Technical Error Message -- ")
@@ -119,13 +118,8 @@ while True:
         print("The following data was saved to file!")
         try:
             for each in students:
-                print(f"Student {each["FirstName"]} {each["LastName"]} is enrolled in {each["CourseName"]}")
+                print(f"{each["FirstName"]} {each["LastName"]}, {each["CourseName"]}")
             continue
-        except KeyError as e: #This is an expected exception, as Enrollments.json contains a key:value error
-            print("Unexpected Key:Value Pair in JSON File")
-            print("-- Technical Error Message -- ")
-            print(e.__doc__)
-            print(e.__str__())
         except Exception as e:
             print("There was a non-specific error!\n")
             print("-- Technical Error Message -- ")
